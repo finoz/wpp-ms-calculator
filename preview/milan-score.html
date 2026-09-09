@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MS Calculator — static preview</title>
+<link rel="stylesheet" href="../assets/ms-calculator.css">
+<style>
+	/* Standalone preview only — not part of the plugin. */
+	body { font-family: system-ui, sans-serif; max-width: 760px; margin: 3em auto; padding: 0 1.5em; color: #1a1a1a; }
+	.dev-note { background: #fffbe6; border: 1px solid #e6d16a; padding: 1em; border-radius: 4px; margin-bottom: 2em; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="dev-note">
+	<strong>Development preview.</strong> This file is not served by WordPress: it statically replicates
+	the markup produced by <code>includes/renderer.php</code> + <code>config-default.json</code>, so the
+	interaction can be iterated on quickly before wiring it into the real page. Visual design still placeholder.
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     Below: identical to what msc_render_calculator() outputs for
+     [ms_calculator id="milan_score"] with the current config-default.json.
+     ══════════════════════════════════════════════════════════════════════ -->
+
+<div class="msc-calculator-wrap">
+<h3 class="msc-calculator__title">Milan Score 2.0</h3>
+<p class="msc-calculator__intro">Select the value that matches the patient for each parameter.</p>
+<form class="form msc-calculator" id="milan_score_calculator" data-msc-id="milan_score" novalidate>
+
+<div class="form-group form-group--radio" role="group" aria-label="Gender">
+	<span class="form-group__legend">Gender</span>
+	<label for="milan_score_gender_0">
+		<input type="radio" id="milan_score_gender_0" name="milan_score_gender" value="gender_f" required>
+		<span>Female</span>
+	</label>
+	<label for="milan_score_gender_1">
+		<input type="radio" id="milan_score_gender_1" name="milan_score_gender" value="gender_m" required>
+		<span>Male</span>
+	</label>
+</div>
+
+<div class="form-group form-group--radio" role="group" aria-label="Age">
+	<span class="form-group__legend">Age</span>
+	<label for="milan_score_age_0">
+		<input type="radio" id="milan_score_age_0" name="milan_score_age" value="age_40" required>
+		<span>≤ 40 years</span>
+	</label>
+	<label for="milan_score_age_1">
+		<input type="radio" id="milan_score_age_1" name="milan_score_age" value="age_4070" required>
+		<span>40–70 years</span>
+	</label>
+	<label for="milan_score_age_2">
+		<input type="radio" id="milan_score_age_2" name="milan_score_age" value="age_70" required>
+		<span>&gt; 70 years</span>
+	</label>
+</div>
+
+<div class="form-group form-group--radio" role="group" aria-label="BMI">
+	<span class="form-group__legend">BMI</span>
+	<label for="milan_score_bmi_0">
+		<input type="radio" id="milan_score_bmi_0" name="milan_score_bmi" value="bmi_025" required>
+		<span>&lt; 25</span>
+	</label>
+	<label for="milan_score_bmi_1">
+		<input type="radio" id="milan_score_bmi_1" name="milan_score_bmi" value="bmi_25" required>
+		<span>≥ 25</span>
+	</label>
+</div>
+
+<div class="form-group form-group--radio" role="group" aria-label="Percent failed swallows">
+	<span class="form-group__legend">% failed swallows</span>
+	<label for="milan_score_failed_swallows_0">
+		<input type="radio" id="milan_score_failed_swallows_0" name="milan_score_failed_swallows" value="failed_swallows_33" required>
+		<span>&lt; 33%</span>
+	</label>
+	<label for="milan_score_failed_swallows_1">
+		<input type="radio" id="milan_score_failed_swallows_1" name="milan_score_failed_swallows" value="failed_swallows_3366" required>
+		<span>33% – 66%</span>
+	</label>
+	<label for="milan_score_failed_swallows_2">
+		<input type="radio" id="milan_score_failed_swallows_2" name="milan_score_failed_swallows" value="failed_swallows_66" required>
+		<span>≥ 66%</span>
+	</label>
+</div>
+
+<div class="form-group form-group--radio" role="group" aria-label="LES basal pressure">
+	<span class="form-group__legend">LES basal pressure</span>
+	<label for="milan_score_les_pressure_0">
+		<input type="radio" id="milan_score_les_pressure_0" name="milan_score_les_pressure" value="les_pressure_45" required>
+		<span>≥ 45</span>
+	</label>
+	<label for="milan_score_les_pressure_1">
+		<input type="radio" id="milan_score_les_pressure_1" name="milan_score_les_pressure" value="les_pressure_1545" required>
+		<span>45 – 15</span>
+	</label>
+	<label for="milan_score_les_pressure_2">
+		<input type="radio" id="milan_score_les_pressure_2" name="milan_score_les_pressure" value="les_pressure_15" required>
+		<span>≤ 15</span>
+	</label>
+</div>
+
+<div class="form-group form-group--radio" role="group" aria-label="SLR">
+	<span class="form-group__legend">SLR</span>
+	<label for="milan_score_slr_0">
+		<input type="radio" id="milan_score_slr_0" name="milan_score_slr" value="slr_011" required>
+		<span>&lt; 11</span>
+	</label>
+	<label for="milan_score_slr_1">
+		<input type="radio" id="milan_score_slr_1" name="milan_score_slr" value="slr_11" required>
+		<span>≥ 11</span>
+	</label>
+</div>
+
+<div class="form-group form-group--radio" role="group" aria-label="EGJ morphology">
+	<span class="form-group__legend">EGJ morphology</span>
+	<label for="milan_score_egj_0">
+		<input type="radio" id="milan_score_egj_0" name="milan_score_egj" value="egj_1" required>
+		<span>Type 1</span>
+	</label>
+	<label for="milan_score_egj_1">
+		<input type="radio" id="milan_score_egj_1" name="milan_score_egj" value="egj_2" required>
+		<span>Type 2</span>
+	</label>
+	<label for="milan_score_egj_2">
+		<input type="radio" id="milan_score_egj_2" name="milan_score_egj" value="egj_3" required>
+		<span>Type 3</span>
+	</label>
+</div>
+
+</form>
+
+<div class="msc-result" id="milan_score_result" data-msc-result aria-live="polite">
+	<p class="msc-result__score">Score: <span data-msc-result-score>0</span></p>
+	<p class="msc-result__badge" data-msc-result-badge hidden></p>
+	<p class="msc-result__label" data-msc-result-label>Fill in all fields to calculate the risk.</p>
+	<p class="msc-result__description" data-msc-result-description></p>
+</div>
+
+<script type="application/json" id="milan_score_msc-config">
+{
+  "fields": [
+    { "id": "gender", "type": "radio", "label": "Gender", "required": true, "options": [
+      { "value": "gender_f", "label": "Female", "points": 0 },
+      { "value": "gender_m", "label": "Male", "points": 3 }
+    ]},
+    { "id": "age", "type": "radio", "label": "Age", "required": true, "options": [
+      { "value": "age_40", "label": "≤ 40 years", "points": 0 },
+      { "value": "age_4070", "label": "40–70 years", "points": 1 },
+      { "value": "age_70", "label": "> 70 years", "points": 2 }
+    ]},
+    { "id": "bmi", "type": "radio", "label": "BMI", "required": true, "options": [
+      { "value": "bmi_025", "label": "< 25", "points": 0 },
+      { "value": "bmi_25", "label": "≥ 25", "points": 2 }
+    ]},
+    { "id": "failed_swallows", "type": "radio", "label": "% failed swallows", "required": true, "options": [
+      { "value": "failed_swallows_33", "label": "< 33%", "points": 0 },
+      { "value": "failed_swallows_3366", "label": "33% – 66%", "points": 1 },
+      { "value": "failed_swallows_66", "label": "≥ 66%", "points": 2 }
+    ]},
+    { "id": "les_pressure", "type": "radio", "label": "LES basal pressure", "required": true, "options": [
+      { "value": "les_pressure_45", "label": "≥ 45", "points": 0 },
+      { "value": "les_pressure_1545", "label": "45 – 15", "points": 1 },
+      { "value": "les_pressure_15", "label": "≤ 15", "points": 2 }
+    ]},
+    { "id": "slr", "type": "radio", "label": "SLR", "required": true, "options": [
+      { "value": "slr_011", "label": "< 11", "points": 0 },
+      { "value": "slr_11", "label": "≥ 11", "points": 5 }
+    ]},
+    { "id": "egj", "type": "radio", "label": "EGJ morphology", "required": true, "options": [
+      { "value": "egj_1", "label": "Type 1", "points": 0 },
+      { "value": "egj_2", "label": "Type 2", "points": 1 },
+      { "value": "egj_3", "label": "Type 3", "points": 4 }
+    ]}
+  ],
+  "rule_in": { "min_score": 11, "label": "Rule-in for GERD" },
+  "bands": [
+    { "min": 0,  "max": 0,  "label": "8% probability of GERD" },
+    { "min": 1,  "max": 1,  "label": "9% probability of GERD" },
+    { "min": 2,  "max": 2,  "label": "12% probability of GERD" },
+    { "min": 3,  "max": 3,  "label": "21% probability of GERD" },
+    { "min": 4,  "max": 4,  "label": "26% probability of GERD" },
+    { "min": 5,  "max": 5,  "label": "20% probability of GERD" },
+    { "min": 6,  "max": 6,  "label": "29% probability of GERD" },
+    { "min": 7,  "max": 7,  "label": "38% probability of GERD" },
+    { "min": 8,  "max": 8,  "label": "48% probability of GERD" },
+    { "min": 9,  "max": 9,  "label": "56% probability of GERD" },
+    { "min": 10, "max": 10, "label": "63% probability of GERD" },
+    { "min": 11, "max": 11, "label": "69% probability of GERD" },
+    { "min": 12, "max": 12, "label": "73% probability of GERD" },
+    { "min": 13, "max": 13, "label": "76% probability of GERD" },
+    { "min": 14, "max": 14, "label": "85% probability of GERD" },
+    { "min": 15, "max": 15, "label": "81% probability of GERD" },
+    { "min": 16, "max": 16, "label": "87% probability of GERD" },
+    { "min": 17, "max": 17, "label": "96% probability of GERD" },
+    { "min": 18, "max": 18, "label": "100% probability of GERD" },
+    { "min": 19, "max": 19, "label": "83% probability of GERD" },
+    { "min": 20, "max": 20, "label": "100% probability of GERD" }
+  ]
+}
+</script>
+</div>
+
+<script src="../assets/ms-calculator.js"></script>
+</body>
+</html>

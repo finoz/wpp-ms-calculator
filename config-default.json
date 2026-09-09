@@ -1,0 +1,118 @@
+{
+  "_comment": "Copy this file to wp-content/ms-calculator-config.json and edit it. Remove this _comment key.",
+
+  "calculators": {
+
+    "milan_score": {
+      "title":         "Milan Score 2.0",
+      "intro":         "Select the value that matches the patient for each parameter.",
+
+      "fields": [
+        {
+          "id":       "gender",
+          "type":     "radio",
+          "label":    "Gender",
+          "required": true,
+          "options": [
+            { "value": "gender_f", "label": "Female", "points": 0 },
+            { "value": "gender_m", "label": "Male",   "points": 3 }
+          ]
+        },
+        {
+          "id":       "age",
+          "type":     "radio",
+          "label":    "Age",
+          "required": true,
+          "options": [
+            { "value": "age_40",   "label": "≤ 40 years",   "points": 0 },
+            { "value": "age_4070", "label": "40–70 years",  "points": 1 },
+            { "value": "age_70",   "label": "> 70 years",   "points": 2 }
+          ]
+        },
+        {
+          "id":       "bmi",
+          "type":     "radio",
+          "label":    "BMI",
+          "required": true,
+          "options": [
+            { "value": "bmi_025", "label": "< 25", "points": 0 },
+            { "value": "bmi_25",  "label": "≥ 25", "points": 2 }
+          ]
+        },
+        {
+          "id":       "failed_swallows",
+          "type":     "radio",
+          "label":    "% failed swallows",
+          "required": true,
+          "options": [
+            { "value": "failed_swallows_33",    "label": "< 33%",      "points": 0 },
+            { "value": "failed_swallows_3366",   "label": "33% – 66%",  "points": 1 },
+            { "value": "failed_swallows_66",    "label": "≥ 66%",      "points": 2 }
+          ]
+        },
+        {
+          "id":       "les_pressure",
+          "type":     "radio",
+          "label":    "LES basal pressure",
+          "required": true,
+          "options": [
+            { "value": "les_pressure_45",   "label": "≥ 45",       "points": 0 },
+            { "value": "les_pressure_1545", "label": "45 – 15",    "points": 1 },
+            { "value": "les_pressure_15",   "label": "≤ 15",       "points": 2 }
+          ]
+        },
+        {
+          "id":       "slr",
+          "type":     "radio",
+          "label":    "SLR",
+          "required": true,
+          "options": [
+            { "value": "slr_011", "label": "< 11", "points": 0 },
+            { "value": "slr_11",  "label": "≥ 11", "points": 5 }
+          ]
+        },
+        {
+          "id":       "egj",
+          "type":     "radio",
+          "label":    "EGJ morphology",
+          "required": true,
+          "options": [
+            { "value": "egj_1", "label": "Type 1", "points": 0 },
+            { "value": "egj_2", "label": "Type 2", "points": 1 },
+            { "value": "egj_3", "label": "Type 3", "points": 4 }
+          ]
+        }
+      ],
+
+      "rule_in": {
+        "min_score": 11,
+        "label": "Rule-in for GERD"
+      },
+
+      "bands": [
+        { "min": 0,  "max": 0,  "label": "8% probability of GERD" },
+        { "min": 1,  "max": 1,  "label": "9% probability of GERD" },
+        { "min": 2,  "max": 2,  "label": "12% probability of GERD" },
+        { "min": 3,  "max": 3,  "label": "21% probability of GERD" },
+        { "min": 4,  "max": 4,  "label": "26% probability of GERD" },
+        { "min": 5,  "max": 5,  "label": "20% probability of GERD" },
+        { "min": 6,  "max": 6,  "label": "29% probability of GERD" },
+        { "min": 7,  "max": 7,  "label": "38% probability of GERD" },
+        { "min": 8,  "max": 8,  "label": "48% probability of GERD" },
+        { "min": 9,  "max": 9,  "label": "56% probability of GERD" },
+        { "min": 10, "max": 10, "label": "63% probability of GERD" },
+        { "min": 11, "max": 11, "label": "69% probability of GERD" },
+        { "min": 12, "max": 12, "label": "73% probability of GERD" },
+        { "min": 13, "max": 13, "label": "76% probability of GERD" },
+        { "min": 14, "max": 14, "label": "85% probability of GERD" },
+        { "min": 15, "max": 15, "label": "81% probability of GERD" },
+        { "min": 16, "max": 16, "label": "87% probability of GERD" },
+        { "min": 17, "max": 17, "label": "96% probability of GERD" },
+        { "min": 18, "max": 18, "label": "100% probability of GERD" },
+        { "min": 19, "max": 19, "label": "83% probability of GERD" },
+        { "min": 20, "max": 20, "label": "100% probability of GERD" }
+      ]
+    }
+
+  }
+}

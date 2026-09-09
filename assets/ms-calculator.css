@@ -1,0 +1,114 @@
+/**
+ * MS Calculator – placeholder styles.
+ *
+ * Hand-written stopgap so the calculator is usable/testable before the real
+ * design lands. To be replaced by a Vite + SCSS build (assets/scss → assets/dist,
+ * same pipeline as wpt-lomais) once the visual design is defined.
+ *
+ * .form / .form-group / .form-cta are shared with the fnz-forms plugin —
+ * only the .msc- prefixed rules below are specific to this calculator.
+ */
+
+.msc-calculator-wrap {
+	max-width: 640px;
+}
+
+.msc-calculator__title {
+	margin-bottom: 0.25em;
+}
+
+.msc-calculator__intro {
+	margin-bottom: 1.5em;
+	opacity: 0.8;
+}
+
+.msc-result {
+	margin-top: 1.5em;
+	padding: 1.25em;
+	border: 1px dashed currentColor;
+	border-radius: 4px;
+}
+
+.msc-result__score {
+	font-size: 1.4em;
+	font-weight: 700;
+	margin: 0 0 0.25em;
+}
+
+.msc-result__label {
+	margin: 0 0 0.25em;
+	font-weight: 600;
+}
+
+.msc-result__description {
+	margin: 0;
+	opacity: 0.8;
+}
+
+.msc-result__badge {
+	display: inline-block;
+	margin: 0 0 0.5em;
+	padding: 0.25em 0.75em;
+	border-radius: 999px;
+	background: currentColor;
+	color: Canvas;
+	font-weight: 700;
+	font-size: 0.85em;
+}
+
+/**
+ * Radio/checkbox groups rendered as clickable chip rows instead of bare
+ * bullet lists — every Milan Score field has ≤3 options, so all of them
+ * fit on screen without needing a native <select>.
+ */
+.msc-calculator .form-group--radio,
+.msc-calculator .form-group--checkbox-group {
+	margin-bottom: 1.25em;
+}
+
+.msc-calculator .form-group__legend {
+	display: block;
+	margin-bottom: 0.5em;
+	font-weight: 600;
+}
+
+.msc-calculator .form-group--radio label,
+.msc-calculator .form-group--checkbox-group label {
+	display: inline-flex;
+	align-items: center;
+	margin: 0 0.5em 0.5em 0;
+	padding: 0.5em 1em;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.msc-calculator .form-group--radio input,
+.msc-calculator .form-group--checkbox-group input {
+	/* Kept in the DOM (not display:none) so keyboard focus/nav still works. */
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+}
+
+.msc-calculator .form-group--radio input:checked + span,
+.msc-calculator .form-group--checkbox-group input:checked + span {
+	font-weight: 700;
+}
+
+.msc-calculator .form-group--radio label:has(input:checked),
+.msc-calculator .form-group--checkbox-group label:has(input:checked) {
+	background: currentColor;
+}
+.msc-calculator .form-group--radio label:has(input:checked) span,
+.msc-calculator .form-group--checkbox-group label:has(input:checked) span {
+	color: Canvas;
+}
+
+.msc-calculator .form-group--radio input:focus-visible + span,
+.msc-calculator .form-group--checkbox-group input:focus-visible + span {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
