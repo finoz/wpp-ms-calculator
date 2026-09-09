@@ -1,10 +1,10 @@
 /**
  * MS Calculator – frontend scoring engine.
  *
- * No REST calls, no PHP round-trip: the field → points mapping, the result
- * bands, and the optional rule-in threshold travel down as a JSON blob next
- * to the form (see includes/renderer.php). The score updates live as each
- * field is answered — no submit button, no page reload.
+ * No REST calls, no PHP round-trip: the field → points mapping, the
+ * percentage lookup, and the risk-class bands travel down as a JSON blob
+ * next to the form (see includes/renderer.php). The score updates live as
+ * each field is answered — no submit button, no page reload.
  */
 (function () {
 	'use strict';
@@ -49,6 +49,21 @@
 		} ) || null;
 	}
 
+	/** "Likely (4–10 points)" — band label plus its own range, so the two can't drift apart. */
+	function formatRiskClass( band ) {
+		if ( ! band ) return null;
+
+		const hasMin = band.min !== undefined && band.min !== null;
+		const hasMax = band.max !== undefined && band.max !== null;
+
+		let range = '';
+		if ( hasMin && hasMax ) range = band.min + '–' + band.max + ' points';
+		else if ( hasMin )      range = '≥ ' + band.min + ' points';
+		else if ( hasMax )      range = '≤ ' + band.max + ' points';
+
+		return range ? band.label + ' (' + range + ')' : band.label;
+	}
+
 	function computeScore( calcId, form, config ) {
 
 		const formData = new FormData( form );
@@ -60,41 +75,37 @@
 			return sum + scoreField( field, formData );
 		}, 0 );
 
+		const percentages = config.percentages || {};
+
 		return {
-			total:    total,
-			complete: isComplete( fields, formData ),
-			band:     matchBand( config.bands, total ),
+			total:     total,
+			complete:  isComplete( fields, formData ),
+			percent:   ( total in percentages ) ? percentages[ total ] : null,
+			riskClass: formatRiskClass( matchBand( config.bands, total ) ),
 		};
 	}
 
-	function updateResult( calcId, config, result ) {
+	function updateResult( calcId, result ) {
 
-		const wrap  = document.getElementById( calcId + '_result' );
+		const wrap = document.getElementById( calcId + '_result' );
 		if ( ! wrap ) return;
 
 		wrap.querySelector( '[data-msc-result-score]' ).textContent = result.total;
 
-		const badgeEl = wrap.querySelector( '[data-msc-result-badge]' );
-		const labelEl = wrap.querySelector( '[data-msc-result-label]' );
-		const descEl  = wrap.querySelector( '[data-msc-result-description]' );
+		const percentEl = wrap.querySelector( '[data-msc-result-percent]' );
+		const classEl   = wrap.querySelector( '[data-msc-result-class]' );
+		const hintEl    = wrap.querySelector( '[data-msc-result-hint]' );
 
 		if ( ! result.complete ) {
-			badgeEl.hidden      = true;
-			labelEl.textContent = 'Fill in all fields to calculate the risk.';
-			descEl.textContent  = '';
+			percentEl.textContent = '—';
+			classEl.textContent   = '—';
+			hintEl.hidden         = false;
 			return;
 		}
 
-		labelEl.textContent = result.band ? result.band.label : '[ placeholder: no band defined for this score ]';
-		descEl.textContent  = result.band && result.band.description ? result.band.description : '';
-
-		const ruleIn = config.rule_in;
-		if ( ruleIn && result.total >= ruleIn.min_score ) {
-			badgeEl.textContent = ruleIn.label || ( 'Score ≥ ' + ruleIn.min_score );
-			badgeEl.hidden      = false;
-		} else {
-			badgeEl.hidden = true;
-		}
+		percentEl.textContent = ( result.percent !== null ) ? result.percent + '%' : '[ placeholder: no percentage defined for this score ]';
+		classEl.textContent   = result.riskClass || '[ placeholder: no risk class defined for this score ]';
+		hintEl.hidden          = true;
 	}
 
 	document.querySelectorAll( '.msc-calculator' ).forEach( function ( form ) {
@@ -111,7 +122,7 @@
 		}
 
 		const recompute = function () {
-			updateResult( calcId, config, computeScore( calcId, form, config ) );
+			updateResult( calcId, computeScore( calcId, form, config ) );
 		};
 
 		form.addEventListener( 'change', recompute );

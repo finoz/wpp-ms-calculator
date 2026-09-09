@@ -61,17 +61,17 @@ The full config lives in **Settings → MS Calculator → Calculator configurati
           ]
         }
       ],
-      "rule_in": { "min_score": 11, "label": "Rule-in for GERD" },
+      "percentages": { "0": 8, "1": 21, "2": 100 },
       "bands": [
-        { "min": 0, "max": 1, "label": "Low risk" },
-        { "min": 2, "max": 5, "label": "High risk" }
+        { "min": 0, "max": 1, "label": "Unlikely" },
+        { "min": 2, "max": 2, "label": "Very likely" }
       ]
     }
   }
 }
 ```
 
-The score updates **live** as fields are filled in — there is no "Calculate" button: the intended interaction is the clinician clicking through the patient's values in sequence and reading the result once every required field has been answered (see `assets/ms-calculator.js`).
+The score updates **live** as fields are filled in — there is no "Calculate" button: the intended interaction is the clinician clicking through the patient's values in sequence and reading the result once every required field has been answered (see `assets/ms-calculator.js`). Once complete, the result panel shows three independent readings of the same total: **Total score**, **% of risk**, and **Risk class**.
 
 ### Calculator-level keys
 
@@ -80,8 +80,8 @@ The score updates **live** as fields are filled in — there is no "Calculate" b
 | `title`        | no       | —            | Title shown above the form                       |
 | `intro`        | no       | —            | Intro copy                                       |
 | `fields`       | **yes**  | —            | Array of field objects                           |
-| `bands`        | no       | `[]`         | Bands interpreting the total score               |
-| `rule_in`      | no       | —            | `{ "min_score": n, "label": "…" }` — badge shown once the total reaches `min_score` |
+| `percentages`  | no       | —            | Point-exact score → percentage lookup, feeds the "% of risk" row (see below) |
+| `bands`        | no       | `[]`         | Min/max ranges with a verdict label each, feed the "Risk class" row (see below) |
 
 ### Field object
 
@@ -116,24 +116,31 @@ The score updates **live** as fields are filled in — there is no "Calculate" b
 
 **`value` convention**: `{field_id}_{number}`, where `{number}` is the clinical threshold with no separators (e.g. `age_4070` for the 40–70 range). It only needs to stay unique *within* the field. For a field with just two options sharing the same cutoff (e.g. BMI `< 25` / `≥ 25`), a leading zero marks "below": `bmi_025` vs `bmi_25`. For a field with no natural clinical number (e.g. gender), fall back to the option's initial: `gender_f` / `gender_m`.
 
-### Result bands (`bands`)
+The total score is the sum of the points of every field. `percentages` and `bands` are two independent readings of that same total — one numeric, one qualitative — shown side by side, not a fallback of one another.
 
-The total score is the sum of the points of every field. The first band whose `[min, max]` range contains the total is shown as the result (both bounds inclusive and optional — omitting `min` means `-∞`, omitting `max` means `+∞`). Setting `min = max` gives a point-exact score → percentage lookup, useful when — as with the Milan Score 2.0 — the score/risk relationship is an empirical table rather than a linear formula.
+### Score → percentage lookup (`percentages`)
+
+The total score is the sum of the points of every field. When each individual score has its own empirical value — as with the Milan Score 2.0, where the score/risk relationship is a lookup table, not a formula — use `percentages`: a plain number keyed by score (as a string). Feeds the **% of risk** row.
+
+```json
+"percentages": { "0": 8, "1": 9, "20": 100 }
+```
+
+Displayed as `{value}%`, e.g. `9%`.
+
+### Risk class (`bands`)
+
+`bands` gives the total score a qualitative verdict: the first band whose `[min, max]` range contains the total is shown in the **Risk class** row, as `{label} ({min}–{max} points)` (both bounds inclusive and optional — omitting `min` means `-∞`, omitting `max` means `+∞`; the range in parentheses is computed from `min`/`max`, not written out by hand, so it can't drift out of sync with the label).
 
 ```json
 "bands": [
-  { "min": 0, "max": 0, "label": "8% probability of GERD" },
-  { "min": 1, "max": 1, "label": "9% probability of GERD" }
+  { "min": 0,  "max": 3,  "label": "Unlikely" },
+  { "min": 4,  "max": 10, "label": "Likely" },
+  { "min": 11, "max": 20, "label": "Very likely" }
 ]
 ```
 
-### Rule-in threshold (`rule_in`)
-
-Optional: shows a badge once the score reaches a clinically relevant threshold, independent of the bands.
-
-```json
-"rule_in": { "min_score": 11, "label": "Rule-in for GERD" }
-```
+→ e.g. score 7 shows **Risk class: Likely (4–10 points)**.
 
 ---
 
@@ -162,13 +169,13 @@ No "real" CSS is shipped by the plugin — `assets/ms-calculator.css` is a **tex
 
   <!-- Result: always visible, updated live on every click -->
   <div class="msc-result" id="milan_score_result" data-msc-result aria-live="polite">
-    <p class="msc-result__score">Score: <span data-msc-result-score>0</span></p>
-    <p class="msc-result__badge" data-msc-result-badge hidden></p>
-    <p class="msc-result__label" data-msc-result-label>Fill in all fields to calculate the risk.</p>
-    <p class="msc-result__description" data-msc-result-description></p>
+    <p class="msc-result__row"><span class="msc-result__caption">Total score</span><span class="msc-result__value" data-msc-result-score>0</span></p>
+    <p class="msc-result__row"><span class="msc-result__caption">% of risk</span><span class="msc-result__value" data-msc-result-percent>—</span></p>
+    <p class="msc-result__row"><span class="msc-result__caption">Risk class</span><span class="msc-result__value" data-msc-result-class>—</span></p>
+    <p class="msc-result__hint" data-msc-result-hint>Fill in all fields to see the risk.</p>
   </div>
 
-  <script type="application/json" id="milan_score_msc-config">{ "fields": […], "bands": […], "rule_in": {…} }</script>
+  <script type="application/json" id="milan_score_msc-config">{ "fields": […], "percentages": {…}, "bands": […] }</script>
 </div>
 ```
 
@@ -176,7 +183,7 @@ No "real" CSS is shipped by the plugin — `assets/ms-calculator.css` is a **tex
 
 ## How scoring works
 
-No server call, no "Calculate" button: `assets/ms-calculator.js` listens for `change` events on the form, recalculates the score on every click by reading the `<script type="application/json">` block embedded next to the form, and updates the result panel in real time. The risk band (and the optional rule-in badge) only appears once every required field has been answered — the partial score stays visible while filling in the form.
+No server call, no "Calculate" button: `assets/ms-calculator.js` listens for `change` events on the form, recalculates the score on every click by reading the `<script type="application/json">` block embedded next to the form, and updates the result panel in real time. **Total score** updates from the very first click; **% of risk** and **Risk class** only appear once every required field has been answered (they show `—` until then, since a partial total isn't a meaningful lookup into either table).
 
 If tracking submissions (leads, analytics, emailing the result) becomes a requirement later, a REST endpoint modeled on the one already in fnz-forms would need to be added — not included here since the current use case doesn't call for it.
 
@@ -225,7 +232,7 @@ add_filter( 'msc_config_path', fn() => '/var/secrets/my-calculators.json' );
 ## Changelog
 
 ### 0.2.0 (in progress)
-Replaced config-default.json with the real Milan Score 2.0 data (7 fields, point-exact 0–20 score → percentage lookup, rule-in threshold ≥11). Interaction switched to live-update (no "Calculate" button): the result updates on every click. Added `preview/milan-score.html` to test the interaction outside WordPress. Option `value`s follow the `{field_id}_{number}` convention (e.g. `age_4070`, `bmi_025` for the below-cutoff option). All copy converted to English.
+Replaced config-default.json with the real Milan Score 2.0 data (7 fields, point-exact 0–20 score → percentage lookup). Interaction switched to live-update (no "Calculate" button): the result updates on every click. Added `preview/milan-score.html` to test the interaction outside WordPress. Option `value`s follow the `{field_id}_{number}` convention (e.g. `age_4070`, `bmi_025` for the below-cutoff option). All copy converted to English. Introduced `percentages` (plain score → number lookup, no repeated label text) alongside `bands`; result panel now shows three independent rows — Total score, % of risk, Risk class — replacing the earlier single label + rule-in badge.
 
 ### 0.1.0
 Initial structure: plugin bootstrap, auto-updater, JSON editor in admin, field rendering (select/radio/checkbox-group/boolean), client-side scoring engine, placeholder CSS.

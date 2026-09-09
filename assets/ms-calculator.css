@@ -29,31 +29,33 @@
 	border-radius: 4px;
 }
 
-.msc-result__score {
-	font-size: 1.4em;
-	font-weight: 700;
-	margin: 0 0 0.25em;
-}
-
-.msc-result__label {
-	margin: 0 0 0.25em;
-	font-weight: 600;
-}
-
-.msc-result__description {
+.msc-result__row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 1em;
 	margin: 0;
-	opacity: 0.8;
+	padding: 0.4em 0;
 }
 
-.msc-result__badge {
-	display: inline-block;
-	margin: 0 0 0.5em;
-	padding: 0.25em 0.75em;
-	border-radius: 999px;
-	background: currentColor;
-	color: Canvas;
+.msc-result__row + .msc-result__row {
+	border-top: 1px solid currentColor;
+	border-top-color: color-mix(in srgb, currentColor 15%, transparent);
+}
+
+.msc-result__caption {
+	opacity: 0.75;
+}
+
+.msc-result__value {
 	font-weight: 700;
-	font-size: 0.85em;
+	text-align: right;
+}
+
+.msc-result__hint {
+	margin: 0.75em 0 0;
+	opacity: 0.8;
+	font-style: italic;
 }
 
 /**

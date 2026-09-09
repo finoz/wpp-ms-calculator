@@ -33,10 +33,16 @@ function msc_render_calculator( string $calc_id, array $calculator ): string {
 	$intro  = $calculator['intro']  ?? '';
 
 	// Config consumed by the frontend JS: only what it needs to score the form.
+	//
+	// The result panel shows two independent readings of the same total score:
+	//   - 'percentages': point-exact score → number lookup (e.g. Milan Score,
+	//     where every total has its own empirical percentage, not a formula).
+	//   - 'bands': qualitative min/max ranges with a verdict label each
+	//     (e.g. "Likely" for 4–10 points) — the risk class.
 	$scoring_config = wp_json_encode( [
-		'fields'  => $fields,
-		'bands'   => $calculator['bands']   ?? [],
-		'rule_in' => $calculator['rule_in'] ?? null,
+		'fields'      => $fields,
+		'percentages' => $calculator['percentages'] ?? null,
+		'bands'       => $calculator['bands']        ?? [],
 	] );
 
 	$html = '<div class="msc-calculator-wrap">' . "\n";
@@ -60,11 +66,13 @@ function msc_render_calculator( string $calc_id, array $calculator ): string {
 	$html .= "</form>\n";
 
 	// Result panel — always visible, filled in live by JS as fields are answered.
+	// Three readings of the total score, shown once every required field is set:
+	// the raw score, the point-exact risk percentage, and the qualitative risk class.
 	$html .= sprintf( '<div class="msc-result" id="%s_result" data-msc-result aria-live="polite">' . "\n", esc_attr( $calc_id ) );
-	$html .= '	<p class="msc-result__score">Score: <span data-msc-result-score>0</span></p>' . "\n";
-	$html .= '	<p class="msc-result__badge" data-msc-result-badge hidden></p>' . "\n";
-	$html .= '	<p class="msc-result__label" data-msc-result-label>Fill in all fields to calculate the risk.</p>' . "\n";
-	$html .= '	<p class="msc-result__description" data-msc-result-description></p>' . "\n";
+	$html .= '	<p class="msc-result__row"><span class="msc-result__caption">Total score</span><span class="msc-result__value" data-msc-result-score>0</span></p>' . "\n";
+	$html .= '	<p class="msc-result__row"><span class="msc-result__caption">% of risk</span><span class="msc-result__value" data-msc-result-percent>—</span></p>' . "\n";
+	$html .= '	<p class="msc-result__row"><span class="msc-result__caption">Risk class</span><span class="msc-result__value" data-msc-result-class>—</span></p>' . "\n";
+	$html .= '	<p class="msc-result__hint" data-msc-result-hint>Fill in all fields to see the risk.</p>' . "\n";
 	$html .= "</div>\n";
 
 	$html .= sprintf(

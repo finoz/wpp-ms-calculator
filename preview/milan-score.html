@@ -132,10 +132,10 @@
 </form>
 
 <div class="msc-result" id="milan_score_result" data-msc-result aria-live="polite">
-	<p class="msc-result__score">Score: <span data-msc-result-score>0</span></p>
-	<p class="msc-result__badge" data-msc-result-badge hidden></p>
-	<p class="msc-result__label" data-msc-result-label>Fill in all fields to calculate the risk.</p>
-	<p class="msc-result__description" data-msc-result-description></p>
+	<p class="msc-result__row"><span class="msc-result__caption">Total score</span><span class="msc-result__value" data-msc-result-score>0</span></p>
+	<p class="msc-result__row"><span class="msc-result__caption">% of risk</span><span class="msc-result__value" data-msc-result-percent>—</span></p>
+	<p class="msc-result__row"><span class="msc-result__caption">Risk class</span><span class="msc-result__value" data-msc-result-class>—</span></p>
+	<p class="msc-result__hint" data-msc-result-hint>Fill in all fields to see the risk.</p>
 </div>
 
 <script type="application/json" id="milan_score_msc-config">
@@ -174,29 +174,17 @@
       { "value": "egj_3", "label": "Type 3", "points": 4 }
     ]}
   ],
-  "rule_in": { "min_score": 11, "label": "Rule-in for GERD" },
+  "percentages": {
+    "0": 8, "1": 9, "2": 12, "3": 21, "4": 26,
+    "5": 20, "6": 29, "7": 38, "8": 48, "9": 56,
+    "10": 63, "11": 69, "12": 73, "13": 76, "14": 85,
+    "15": 81, "16": 87, "17": 96, "18": 100, "19": 83,
+    "20": 100
+  },
   "bands": [
-    { "min": 0,  "max": 0,  "label": "8% probability of GERD" },
-    { "min": 1,  "max": 1,  "label": "9% probability of GERD" },
-    { "min": 2,  "max": 2,  "label": "12% probability of GERD" },
-    { "min": 3,  "max": 3,  "label": "21% probability of GERD" },
-    { "min": 4,  "max": 4,  "label": "26% probability of GERD" },
-    { "min": 5,  "max": 5,  "label": "20% probability of GERD" },
-    { "min": 6,  "max": 6,  "label": "29% probability of GERD" },
-    { "min": 7,  "max": 7,  "label": "38% probability of GERD" },
-    { "min": 8,  "max": 8,  "label": "48% probability of GERD" },
-    { "min": 9,  "max": 9,  "label": "56% probability of GERD" },
-    { "min": 10, "max": 10, "label": "63% probability of GERD" },
-    { "min": 11, "max": 11, "label": "69% probability of GERD" },
-    { "min": 12, "max": 12, "label": "73% probability of GERD" },
-    { "min": 13, "max": 13, "label": "76% probability of GERD" },
-    { "min": 14, "max": 14, "label": "85% probability of GERD" },
-    { "min": 15, "max": 15, "label": "81% probability of GERD" },
-    { "min": 16, "max": 16, "label": "87% probability of GERD" },
-    { "min": 17, "max": 17, "label": "96% probability of GERD" },
-    { "min": 18, "max": 18, "label": "100% probability of GERD" },
-    { "min": 19, "max": 19, "label": "83% probability of GERD" },
-    { "min": 20, "max": 20, "label": "100% probability of GERD" }
+    { "min": 0, "max": 3, "label": "Unlikely" },
+    { "min": 4, "max": 10, "label": "Likely" },
+    { "min": 11, "max": 20, "label": "Very likely" }
   ]
 }
 </script>
