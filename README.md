@@ -155,14 +155,16 @@ No "real" CSS is shipped by the plugin — `assets/ms-calculator.css` is a **tex
   <form class="form msc-calculator" id="milan_score_calculator" data-msc-id="milan_score" novalidate>
     <div class="form-group form-group--radio" role="group" aria-label="Gender">
       <span class="form-group__legend">Gender</span>
-      <label for="milan_score_gender_0">
-        <input type="radio" id="milan_score_gender_0" name="milan_score_gender" value="gender_f" required>
-        <span>Female</span>
-      </label>
-      <label for="milan_score_gender_1">
-        <input type="radio" id="milan_score_gender_1" name="milan_score_gender" value="gender_m" required>
-        <span>Male</span>
-      </label>
+      <div class="form-group__options">
+        <label for="milan_score_gender_0">
+          <input type="radio" id="milan_score_gender_0" name="milan_score_gender" value="gender_f" required>
+          <span>Female</span>
+        </label>
+        <label for="milan_score_gender_1">
+          <input type="radio" id="milan_score_gender_1" name="milan_score_gender" value="gender_m" required>
+          <span>Male</span>
+        </label>
+      </div>
     </div>
     <!-- … the other 6 questions, same pattern … -->
   </form>

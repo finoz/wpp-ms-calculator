@@ -149,7 +149,9 @@ HTML;
 	return <<<HTML
 <div class="form-group form-group--radio" role="group" aria-label="{$label}">
 	<span class="form-group__legend">{$label}</span>
-{$inputs}</div>
+	<div class="form-group__options">
+{$inputs}	</div>
+</div>
 
 HTML;
 }
@@ -175,7 +177,9 @@ HTML;
 	return <<<HTML
 <div class="form-group form-group--checkbox-group" role="group" aria-label="{$label}">
 	<span class="form-group__legend">{$label}</span>
-{$inputs}</div>
+	<div class="form-group__options">
+{$inputs}	</div>
+</div>
 
 HTML;
 }
